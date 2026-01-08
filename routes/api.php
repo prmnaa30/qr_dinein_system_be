@@ -59,10 +59,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/categories', function () {
     return response()->json([
         'data' => [
-            ['id' => 1, 'name' => 'Coffee', 'type' => 'drink'],
-            ['id' => 2, 'name' => 'Non-Coffee', 'type' => 'drink'],
-            ['id' => 3, 'name' => 'Main Course', 'type' => 'food'],
-            ['id' => 4, 'name' => 'Snack', 'type' => 'food'],
+            ['id' => 1, 'name' => 'Coffee'],
+            ['id' => 2, 'name' => 'Non-Coffee'],
+            ['id' => 3, 'name' => 'Main Course'],
+            ['id' => 4, 'name' => 'Snack'],
         ]
     ]);
 });
