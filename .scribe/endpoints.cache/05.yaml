@@ -268,7 +268,7 @@ endpoints:
         name: role
         description: ''
         required: true
-        example: kitchen
+        example: cashier
         type: string
         enumValues:
           - admin
@@ -281,7 +281,7 @@ endpoints:
       name: b
       email: gbailey@example.net
       username: bng-zmi_y
-      role: kitchen
+      role: cashier
     fileParameters: []
     responses: []
     responseFields: []

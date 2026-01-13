@@ -144,7 +144,10 @@
                     <a href="#table-management">Table Management</a>
                 </li>
                                     <ul id="tocify-subheader-table-management" class="tocify-subheader">
-                                                    <li class="tocify-item level-2" data-unique="table-management-GETapi-admin-tables">
+                                                    <li class="tocify-item level-2" data-unique="table-management-GETapi-tables-resolve--uuid-">
+                                <a href="#table-management-GETapi-tables-resolve--uuid-">Resolve QR UUID</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="table-management-GETapi-admin-tables">
                                 <a href="#table-management-GETapi-admin-tables">Daftar Meja</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="table-management-POSTapi-admin-tables">
@@ -2003,7 +2006,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --form "description=Eius et animi quos velit et."\
     --form "price=60"\
     --form "is_available="\
-    --form "image=@/tmp/php5baf4n" </code></pre></div>
+    --form "image=@/tmp/phpLz54pb" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -2164,7 +2167,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>Must be an image. Must not be greater than 2048 kilobytes. Example: <code>/tmp/php5baf4n</code></p>
+<p>Must be an image. Must not be greater than 2048 kilobytes. Example: <code>/tmp/phpLz54pb</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>is_available</code></b>&nbsp;&nbsp;
@@ -2210,8 +2213,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --form "name=b"\
     --form "description=Eius et animi quos velit et."\
     --form "price=60"\
-    --form "is_available=1"\
-    --form "image=@/tmp/phpbyDwK5" </code></pre></div>
+    --form "is_available="\
+    --form "image=@/tmp/phpqYciJN" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -2228,7 +2231,7 @@ const body = new FormData();
 body.append('name', 'b');
 body.append('description', 'Eius et animi quos velit et.');
 body.append('price', '60');
-body.append('is_available', '1');
+body.append('is_available', '');
 body.append('image', document.querySelector('input[name="image"]').files[0]);
 
 fetch(url, {
@@ -2388,7 +2391,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>Must be an image. Must not be greater than 2048 kilobytes. Example: <code>/tmp/phpbyDwK5</code></p>
+<p>Must be an image. Must not be greater than 2048 kilobytes. Example: <code>/tmp/phpqYciJN</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>is_available</code></b>&nbsp;&nbsp;
@@ -2410,7 +2413,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             <code>false</code>
         </label>
     <br>
-<p>Example: <code>true</code></p>
+<p>Example: <code>false</code></p>
         </div>
         </form>
 
@@ -2560,7 +2563,140 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
     <p>APIs for managing tables in the system.</p>
 
-                                <h2 id="table-management-GETapi-admin-tables">Daftar Meja</h2>
+                                <h2 id="table-management-GETapi-tables-resolve--uuid-">Resolve QR UUID</h2>
+
+<p>
+</p>
+
+<p>Mengubah UUID dari URL Params menjadi ID Table.</p>
+
+<span id="example-requests-GETapi-tables-resolve--uuid-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "https://qr-dinein-system.ddev.site/api/tables/resolve/6ff8f7f6-1eb3-3525-be4a-3932c805afed" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "https://qr-dinein-system.ddev.site/api/tables/resolve/6ff8f7f6-1eb3-3525-be4a-3932c805afed"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-tables-resolve--uuid-">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;id&quot;: &quot;1&quot;,
+    &quot;table_number&quot;: &quot;Meja 01&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-tables-resolve--uuid-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-tables-resolve--uuid-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-tables-resolve--uuid-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-tables-resolve--uuid-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-tables-resolve--uuid-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-tables-resolve--uuid-" data-method="GET"
+      data-path="api/tables/resolve/{uuid}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-tables-resolve--uuid-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-tables-resolve--uuid-"
+                    onclick="tryItOut('GETapi-tables-resolve--uuid-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-tables-resolve--uuid-"
+                    onclick="cancelTryOut('GETapi-tables-resolve--uuid-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-tables-resolve--uuid-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/tables/resolve/{uuid}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-tables-resolve--uuid-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-tables-resolve--uuid-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>uuid</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="uuid"                data-endpoint="GETapi-tables-resolve--uuid-"
+               value="6ff8f7f6-1eb3-3525-be4a-3932c805afed"
+               data-component="url">
+    <br>
+<p>Example: <code>6ff8f7f6-1eb3-3525-be4a-3932c805afed</code></p>
+            </div>
+                    </form>
+
+                    <h2 id="table-management-GETapi-admin-tables">Daftar Meja</h2>
 
 <p>
 <small class="badge badge-darkred">requires authentication</small>
@@ -3577,7 +3713,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"name\": \"b\",
     \"email\": \"gbailey@example.net\",
     \"username\": \"bng-zmi_y\",
-    \"role\": \"kitchen\"
+    \"role\": \"cashier\"
 }"
 </code></pre></div>
 
@@ -3596,7 +3732,7 @@ let body = {
     "name": "b",
     "email": "gbailey@example.net",
     "username": "bng-zmi_y",
-    "role": "kitchen"
+    "role": "cashier"
 };
 
 fetch(url, {
@@ -3753,10 +3889,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="role"                data-endpoint="PUTapi-admin-users--id-"
-               value="kitchen"
+               value="cashier"
                data-component="body">
     <br>
-<p>Example: <code>kitchen</code></p>
+<p>Example: <code>cashier</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>admin</code></li> <li><code>cashier</code></li> <li><code>kitchen</code></li></ul>
         </div>

@@ -90,4 +90,16 @@ class TableController extends Controller
             'svg' => (string) $qrCodeSvg
         ]);
     }
+
+    #[Endpoint('Resolve QR UUID', 'Mengubah UUID dari URL Params menjadi ID Table.')]
+    #[Response('{"id": "1","table_number":"Meja 01"}', 200)]
+    public function resolveUuid($uuid)
+    {
+        $table = Table::where('qr_uuid', $uuid)->firstOrFail();
+
+        return response()->json([
+            'id' => $table->id,
+            'table_number' => $table->table_number
+        ]);
+    }
 }

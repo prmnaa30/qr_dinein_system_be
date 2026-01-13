@@ -5,6 +5,55 @@ endpoints:
     custom: []
     httpMethods:
       - GET
+    uri: 'api/tables/resolve/{uuid}'
+    metadata:
+      custom: []
+      groupName: 'Table Management'
+      groupDescription: 'APIs for managing tables in the system.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Resolve QR UUID'
+      description: 'Mengubah UUID dari URL Params menjadi ID Table.'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      uuid:
+        custom: []
+        name: uuid
+        description: ''
+        required: true
+        example: 6ff8f7f6-1eb3-3525-be4a-3932c805afed
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      uuid: 6ff8f7f6-1eb3-3525-be4a-3932c805afed
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"id": "1","table_number":"Meja 01"}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
     uri: api/admin/tables
     metadata:
       custom: []

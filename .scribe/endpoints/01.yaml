@@ -286,7 +286,7 @@ endpoints:
         name: is_available
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
         enumValues: []
         exampleWasSpecified: false
@@ -296,7 +296,7 @@ endpoints:
       name: b
       description: 'Eius et animi quos velit et.'
       price: 60
-      is_available: true
+      is_available: false
     fileParameters:
       image: null
     responses: []

@@ -18,6 +18,7 @@ Route::get('/products/{product}', [ProductController::class, 'show']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{category}', [CategoryController::class, 'show']);
 Route::post('/orders', [OrderController::class, 'store']);
+Route::get('/tables/resolve/{uuid}', [TableController::class, 'resolveUuid']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
