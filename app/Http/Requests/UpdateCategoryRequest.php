@@ -4,6 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Knuckles\Scribe\Attributes\BodyParam;
+use Knuckles\Scribe\Attributes\Endpoint;
+use Knuckles\Scribe\Attributes\Response;
 
 class UpdateCategoryRequest extends FormRequest
 {
@@ -15,11 +18,8 @@ class UpdateCategoryRequest extends FormRequest
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
+    #[Endpoint('Category Update Request', 'Menangani permintaan pembaruan kategori dengan validasi data.')]
+    #[BodyParam('name', 'string', 'Nama kategori yang unik.', example: 'Makanan')]
     public function rules(): array
     {
         $categoryId = $this->route('category');

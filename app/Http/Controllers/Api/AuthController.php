@@ -10,37 +10,16 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
+use Knuckles\Scribe\Attributes\Group;
+use Knuckles\Scribe\Attributes\Endpoint;
+use Knuckles\Scribe\Attributes\BodyParam;
+use Knuckles\Scribe\Attributes\Response;
+use Knuckles\Scribe\Attributes\Authenticated;
 
-/**
- * @group Authentication Management
- *
- * APIs for user authentication including registration, login, logout, and user profile retrieval.
- */
+#[Group('Authentication Management', 'APIs for user authentication including registration, login, logout, and user profile retrieval.')]
 class AuthController extends Controller
 {
-    /**
-     * User Registration
-     *
-     * Register a new user account with the provided credentials. The user will be assigned a cashier role by default if no role is specified.
-     *
-     * @bodyParam name string required Full name of the user. Example: John Doe
-     * @bodyParam email string required Valid email address. Example: john@example.com
-     * @bodyParam username string required Username for login. Must be alphanumeric with dashes and underscores only. Example: johndoe
-     * @bodyParam password string required Password with minimum 8 characters. Example: password123
-     * @bodyParam role string Role of the user. Optional, defaults to 'cashier'. Example: cashier
-     * @response {
-     *   "message": "Registrasi berhasil!",
-     *   "data": {
-     *     "id": 1,
-     *     "name": "John Doe",
-     *     "email": "john@example.com",
-     *     "username": "johndoe",
-     *     "role": "cashier",
-     *     "created_at": "2023-01-01T00:00.00000Z",
-     *     "updated_at": "2023-01-01T00:00:00.000000Z"
-     *   }
-     * }
-     */
+    #[Endpoint('Pendaftaran Pengguna', 'Mendaftarkan akun pengguna baru dengan kredensial yang diberikan. Pengguna akan diberi peran kasir secara default jika tidak ada peran yang ditentukan.')]
     public function register(RegisterRequest $request): JsonResponse
     {
         $user = User::create([
@@ -59,26 +38,7 @@ class AuthController extends Controller
         ])->withCookie($this->setCookie($token));
     }
 
-    /**
-     * User Login
-     *
-     * Authenticate user credentials and return user information with authentication token.
-     *
-     * @bodyParam username string required Username for login. Example: johndoe
-     * @bodyParam password string required Password. Example: password123
-     * @response {
-     *   "message": "Login berhasil!",
-     *   "data": {
-     *     "id": 1,
-     *     "name": "John Doe",
-     *     "email": "john@example.com",
-     *     "username": "johndoe",
-     *     "role": "cashier",
-     *     "created_at": "2023-01-01T00:00:00.000000Z",
-     *     "updated_at": "2023-01-01T00:00:00.000000Z"
-     *   }
-     * }
-     */
+    #[Endpoint('Login Pengguna', 'Otentikasi kredensial pengguna dan mengembalikan informasi pengguna dengan token otentikasi.')]
     public function login(LoginRequest $request): JsonResponse
     {
         $user = $request->authenticate();
@@ -93,16 +53,9 @@ class AuthController extends Controller
         ])->withCookie($this->setCookie($token));
     }
 
-    /**
-     * User Logout
-     *
-     * Invalidate the current user's authentication token and remove the authentication cookie.
-     *
-     * @authenticated
-     * @response {
-     *   "message": "Logout berhasil!"
-     * }
-     */
+    #[Endpoint('Logout Pengguna', 'Menghapus token otentikasi pengguna saat ini dan menghapus cookie otentikasi.')]
+    #[Authenticated]
+    #[Response(content: '{"message": "Logout berhasil!"}', status: 200)]
     public function logout(Request $request): JsonResponse
     {
         $request->user()->currentAccessToken()->delete();
@@ -114,24 +67,9 @@ class AuthController extends Controller
         ])->withCookie($cookie);
     }
 
-    /**
-     * Get Authenticated User
-     *
-     * Retrieve the currently authenticated user's information.
-     *
-     * @authenticated
-     * @response {
-     *   "data": {
-     *     "id": 1,
-     *     "name": "John Doe",
-     *     "email": "john@example.com",
-     *     "username": "johndoe",
-     *     "role": "cashier",
-     *     "created_at": "2023-01-01T00:00:00.000000Z",
-     *     "updated_at": "2023-01-01T00:00:00.000000Z"
-     *   }
-     * }
-     */
+    #[Endpoint('Dapatkan Data Pengguna Terautentikasi', 'Mengambil informasi pengguna yang saat ini terotentikasi.')]
+    #[Authenticated]
+    #[Response(content: '{"data": {"id": 1,"name": "John Doe","email": "john@example.com","username": "johndoe","role": "cashier","created_at": "2023-01-01T00:00:00.000000Z","updated_at": "2023-01-01T00:00.00000Z"}}', status: 200)]
     public function user(Request $request): JsonResponse
     {
         return response()->json([

@@ -11,7 +11,13 @@ use App\Models\User;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Knuckles\Scribe\Attributes\Group;
+use Knuckles\Scribe\Attributes\Endpoint;
+use Knuckles\Scribe\Attributes\BodyParam;
+use Knuckles\Scribe\Attributes\Response;
+use Knuckles\Scribe\Attributes\Authenticated;
 
+#[Group('Product Management', 'APIs for managing products in the system.')]
 class ProductController extends Controller
 {
     protected $productService;
@@ -24,9 +30,9 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
 
-    /**
-     * Display a listing of the resource.
-     */
+    #[Endpoint('Daftar Produk', 'Menampilkan daftar semua produk yang tersedia.')]
+    #[Authenticated]
+    #[Response(content: '[{"id": 1,"name": "Nasi Goreng","description": "Nasi goreng spesial","price": 25000,"image": "nasi_goreng.jpg","category_id": 1,"created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T00:00.000000Z"}]', status: 200)]
     public function index(Request $request)
     {
         Gate::authorize('viewAny', User::class);
@@ -35,9 +41,8 @@ class ProductController extends Controller
         return ProductResource::collection($products);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    #[Endpoint('Buat Produk Baru', 'Membuat produk baru dengan data yang diberikan.')]
+    #[Authenticated]
     public function store(StoreProductRequest $request)
     {
         Gate::authorize('create', User::class);
@@ -46,9 +51,9 @@ class ProductController extends Controller
         return new ProductResource($product);
     }
 
-    /**
-     * Display the specified resource.
-     */
+    #[Endpoint('Tampilkan Produk', 'Menampilkan detail produk berdasarkan ID.')]
+    #[Authenticated]
+    #[Response(content: '{"id": 1,"name": "Nasi Goreng","description": "Nasi goreng spesial","price": 25000,"image": "nasi_goreng.jpg","category_id": 1,"created_at": "2023-01-01T0:00.000Z","updated_at": "2023-01-01T00:00.000000Z"}', status: 200)]
     public function show(string $id)
     {
         $product = $this->productService->getProductById($id);
@@ -57,9 +62,8 @@ class ProductController extends Controller
         return new ProductResource($product);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    #[Endpoint('Perbarui Produk', 'Memperbarui data produk berdasarkan ID.')]
+    #[Authenticated]
     public function update(UpdateProductRequest $request, string $id)
     {
         $productTarget = $this->productService->getProductById($id);
@@ -70,9 +74,10 @@ class ProductController extends Controller
         return new ProductResource($updatedProduct);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    #[Endpoint('Hapus Produk', 'Menghapus produk berdasarkan ID.')]
+    #[Authenticated]
+    #[Response(content: '{"message": "Produk berhasil dihapus"}', status: 200)]
+    #[Response(content: '{"message": "Error message"}', status: 400)]
     public function destroy(string $id)
     {
         $productTarget = $this->productService->getProductById($id);
@@ -80,7 +85,7 @@ class ProductController extends Controller
 
         try {
             $this->productService->deleteProduct($id);
-            return response()->json(['message' => 'Product deleted successfully']);
+            return response()->json(['message' => 'Produk berhasil dihapus']);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 400);
         }

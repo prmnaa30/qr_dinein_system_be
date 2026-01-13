@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Knuckles\Scribe\Attributes\BodyParam;
+use Knuckles\Scribe\Attributes\Endpoint;
+use Knuckles\Scribe\Attributes\Response;
 
 /**
  * LoginRequest
@@ -61,12 +64,9 @@ class LoginRequest extends FormRequest
         return $user;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     * Validation rules for the login request
-     */
+    #[Endpoint('Login Request', 'Menangani request login pengguna dengan validasi credentials.')]
+    #[BodyParam('username', 'string', 'Username untuk login.', example: 'johndoe')]
+    #[BodyParam('password', 'string', 'Password pengguna.', example: 'password123')]
     public function rules(): array
     {
         return [

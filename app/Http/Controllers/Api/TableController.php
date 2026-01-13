@@ -9,7 +9,13 @@ use App\Models\Table;
 use App\Services\TableService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Knuckles\Scribe\Attributes\Group;
+use Knuckles\Scribe\Attributes\Endpoint;
+use Knuckles\Scribe\Attributes\BodyParam;
+use Knuckles\Scribe\Attributes\Response;
+use Knuckles\Scribe\Attributes\Authenticated;
 
+#[Group('Table Management', 'APIs for managing tables in the system.')]
 class TableController extends Controller
 {
     protected $tableService;
@@ -19,9 +25,9 @@ class TableController extends Controller
         $this->tableService = $tableService;
     }
 
-    /**
-     * Display a listing of the resource.
-     */
+    #[Endpoint('Daftar Meja', 'Menampilkan daftar semua meja yang tersedia.')]
+    #[Authenticated]
+    #[Response(content: '[{"id": 1,"table_number": 1,"qr_uuid": "abc123","created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T00:00.000000Z"}]', status: 200)]
     public function index()
     {
         Gate::authorize('viewAny', Table::class);
@@ -30,9 +36,8 @@ class TableController extends Controller
         return TableResource::collection($tables);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    #[Endpoint('Buat Meja Baru', 'Membuat meja baru dengan data yang diberikan.')]
+    #[Authenticated]
     public function store(StoreTableRequest $request)
     {
         Gate::authorize('create', Table::class);
@@ -41,25 +46,25 @@ class TableController extends Controller
         return new TableResource($table);
     }
 
-    /**
-     * Display the specified resource.
-     */
+    // #[Endpoint('Tampilkan Meja', 'Menampilkan detail meja berdasarkan ID.')]
+    // #[Authenticated]
+    // #[Response(content: '{"id": 1,"table_number": 1,"qr_uuid": "abc123","created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T00:00.000000Z"}', status: 200)]
     public function show(string $id)
     {
-
+        // unused
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    // #[Endpoint('Perbarui Meja', 'Memperbarui data meja berdasarkan ID.')]
+    // #[Authenticated]
     public function update(Request $request, string $id)
     {
-        //
+        // unused
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    #[Endpoint('Hapus Meja', 'Menghapus meja berdasarkan ID.')]
+    #[Authenticated]
+    #[Response(content: '{"message": "Meja berhasil dihapus"}', status: 200)]
+    #[Response(content: '{"message": "Error message"}', status: 400)]
     public function destroy(string $id)
     {
         $tableTarget = $this->tableService->getTableById($id);
@@ -67,15 +72,15 @@ class TableController extends Controller
 
         try {
             $this->tableService->deleteTable($id);
-            return response()->json(['message' => 'Table deleted successfully']);
+            return response()->json(['message' => 'Meja berhasil dihapus']);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 400);
         }
     }
 
-    /**
-     * Download/preview QR Code based on table's qr_uuid field
-     */
+    #[Endpoint('Unduh Kode QR Meja', 'Mengunduh atau melihat pratinjau kode QR berdasarkan field qr_uuid meja.')]
+    #[Authenticated]
+    #[Response(content: '{"svg": "<svg xmlns=..."}', status: 200)]
     public function downloadQr($id)
     {
         Gate::authorize('downloadQr', Table::class);

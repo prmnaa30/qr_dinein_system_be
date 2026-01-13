@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Knuckles\Scribe\Attributes\BodyParam;
+use Knuckles\Scribe\Attributes\Endpoint;
+use Knuckles\Scribe\Attributes\Response;
 
 class StoreCategoryRequest extends FormRequest
 {
@@ -14,11 +17,8 @@ class StoreCategoryRequest extends FormRequest
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
+    #[Endpoint('Store Category Request', 'Menangani request pembuatan category baru dengan validasi data.')]
+    #[BodyParam('name', 'string', 'Nama kategori yang unik.', example: 'Minuman')]
     public function rules(): array
     {
         return [

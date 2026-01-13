@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Knuckles\Scribe\Attributes\BodyParam;
+use Knuckles\Scribe\Attributes\Endpoint;
+use Knuckles\Scribe\Attributes\Response;
 
 class UpdateTableRequest extends FormRequest
 {
@@ -11,18 +14,15 @@ class UpdateTableRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
+    #[Endpoint('Table Update Request', 'Menangani permintaan pembaruan meja dengan validasi data.')]
+    #[BodyParam('table_number', 'string', 'Nomor meja yang unik.', example: 'A1')]
     public function rules(): array
     {
         return [
-            //
+            'table_number' => ['sometimes', 'string', 'unique:tables,table_number']
         ];
     }
 }

@@ -10,7 +10,13 @@ use App\Models\Category;
 use App\Services\CategoryService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Knuckles\Scribe\Attributes\Group;
+use Knuckles\Scribe\Attributes\Endpoint;
+use Knuckles\Scribe\Attributes\BodyParam;
+use Knuckles\Scribe\Attributes\Response;
+use Knuckles\Scribe\Attributes\Authenticated;
 
+#[Group('Category Management', 'APIs for managing categories in the system.')]
 class CategoryController extends Controller
 {
     protected $categoryService;
@@ -20,9 +26,9 @@ class CategoryController extends Controller
         $this->categoryService = $categoryService;
     }
 
-    /**
-     * Display a listing of the resource.
-     */
+    #[Endpoint('Daftar Kategori', 'Menampilkan daftar semua kategori yang tersedia.')]
+    #[Authenticated]
+    #[Response(content: '[{"id": 1,"name": "Makanan","description": "Berbagai jenis makanan","created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T00:00.000000Z"}]', status: 200)]
     public function index()
     {
         Gate::authorize('viewAny', Category::class);
@@ -31,9 +37,8 @@ class CategoryController extends Controller
         return CategoryResource::collection($categories);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    #[Endpoint('Buat Kategori Baru', 'Membuat kategori baru dengan data yang diberikan.')]
+    #[Authenticated]
     public function store(StoreCategoryRequest $request)
     {
         Gate::authorize('create', Category::class);
@@ -42,9 +47,9 @@ class CategoryController extends Controller
         return new CategoryResource($category);
     }
 
-    /**
-     * Display the specified resource.
-     */
+    #[Endpoint('Tampilkan Kategori', 'Menampilkan detail kategori berdasarkan ID.')]
+    #[Authenticated]
+    #[Response(content: '{"id": 1,"name": "Makanan","description": "Berbagai jenis makanan","created_at": "2023-01T00:00.000Z","updated_at": "2023-01-01T00:00.000000Z"}', status: 200)]
     public function show(string $id)
     {
         $category = $this->categoryService->getCategoryById($id);
@@ -53,9 +58,8 @@ class CategoryController extends Controller
         return new CategoryResource($category);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    #[Endpoint('Perbarui Kategori', 'Memperbarui data kategori berdasarkan ID.')]
+    #[Authenticated]
     public function update(UpdateCategoryRequest $request, string $id)
     {
         $categoryTarget = $this->categoryService->getCategoryById($id);
@@ -66,9 +70,10 @@ class CategoryController extends Controller
         return new CategoryResource($updatedCategory);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    #[Endpoint('Hapus Kategori', 'Menghapus kategori berdasarkan ID.')]
+    #[Authenticated]
+    #[Response(content: '{"message": "Kategori berhasil dihapus"}', status: 200)]
+    #[Response(content: '{"message": "Error message"}', status: 400)]
     public function destroy(string $id)
     {
         $categoryTarget = $this->categoryService->getCategoryById($id);
@@ -76,7 +81,7 @@ class CategoryController extends Controller
 
         try {
             $this->categoryService->deleteCategory($id);
-            return response()->json(['message' => 'Category deleted successfully']);
+            return response()->json(['message' => 'Kategori berhasil dihapus']);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 400);
         }

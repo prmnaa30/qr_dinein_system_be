@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Knuckles\Scribe\Attributes\BodyParam;
+use Knuckles\Scribe\Attributes\Endpoint;
+use Knuckles\Scribe\Attributes\Response;
 
 class UpdateProductRequest extends FormRequest
 {
@@ -14,11 +17,13 @@ class UpdateProductRequest extends FormRequest
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
+    #[Endpoint('Product Update Request', 'Menangani permintaan pembaruan produk dengan validasi data.')]
+    #[BodyParam('category_id', 'integer', 'ID kategori produk.', example: 1)]
+    #[BodyParam('name', 'string', 'Nama produk.', example: 'Nasi Goreng Spesial')]
+    #[BodyParam('description', 'string', 'Deskripsi produk.', example: 'Nasi goreng dengan campuran telur dan ayam')]
+    #[BodyParam('price', 'number', 'Harga produk.', example: 25000)]
+    #[BodyParam('image', 'file', 'Gambar produk (opsional).', example: 'nasi_goreng.jpg')]
+    #[BodyParam('is_available', 'boolean', 'Status ketersediaan produk.', example: true)]
     public function rules(): array
     {
         return [

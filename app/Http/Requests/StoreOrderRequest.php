@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Knuckles\Scribe\Attributes\BodyParam;
+use Knuckles\Scribe\Attributes\Endpoint;
+use Knuckles\Scribe\Attributes\Response;
 
 class StoreOrderRequest extends FormRequest
 {
@@ -14,11 +17,10 @@ class StoreOrderRequest extends FormRequest
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
+    #[Endpoint('Order Store Request', 'Menangani request pembuatan pesanan baru dengan validasi data.')]
+    #[BodyParam('table_id', 'integer', 'ID meja untuk pesanan.', example: 1)]
+    #[BodyParam('customer_name', 'string', 'Nama pelanggan (opsional).', example: 'Budi Santoso')]
+    #[BodyParam('items', 'array', 'Daftar item pesanan.', example: '[{"product_id": 1, "quantity": 2, "notes": "Tanpa cabe"}]')]
     public function rules(): array
     {
         return [

@@ -1,0 +1,187 @@
+name: 'Table Management'
+description: 'APIs for managing tables in the system.'
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/admin/tables
+    metadata:
+      custom: []
+      groupName: 'Table Management'
+      groupDescription: 'APIs for managing tables in the system.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Daftar Meja'
+      description: 'Menampilkan daftar semua meja yang tersedia.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '[{"id": 1,"table_number": 1,"qr_uuid": "abc123","created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T00:00.000000Z"}]'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/admin/tables
+    metadata:
+      custom: []
+      groupName: 'Table Management'
+      groupDescription: 'APIs for managing tables in the system.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Buat Meja Baru'
+      description: 'Membuat meja baru dengan data yang diberikan.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      table_number:
+        custom: []
+        name: table_number
+        description: ''
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      table_number: architecto
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - DELETE
+    uri: 'api/admin/tables/{id}'
+    metadata:
+      custom: []
+      groupName: 'Table Management'
+      groupDescription: 'APIs for managing tables in the system.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Hapus Meja'
+      description: 'Menghapus meja berdasarkan ID.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        custom: []
+        name: id
+        description: 'The ID of the table.'
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      id: architecto
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"message": "Meja berhasil dihapus"}'
+        headers: []
+        description: ''
+      -
+        custom: []
+        status: 400
+        content: '{"message": "Error message"}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/admin/tables/{id}/qr'
+    metadata:
+      custom: []
+      groupName: 'Table Management'
+      groupDescription: 'APIs for managing tables in the system.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Unduh Kode QR Meja'
+      description: 'Mengunduh atau melihat pratinjau kode QR berdasarkan field qr_uuid meja.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        custom: []
+        name: id
+        description: 'The ID of the table.'
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      id: architecto
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"svg": "<svg xmlns=..."}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null

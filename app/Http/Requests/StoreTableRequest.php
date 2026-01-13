@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Knuckles\Scribe\Attributes\BodyParam;
+use Knuckles\Scribe\Attributes\Endpoint;
+use Knuckles\Scribe\Attributes\Response;
 
 class StoreTableRequest extends FormRequest
 {
@@ -14,11 +17,8 @@ class StoreTableRequest extends FormRequest
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
+    #[Endpoint('Table Store Request', 'Menangani permintaan pembuatan meja baru dengan validasi data.')]
+    #[BodyParam('table_number', 'string', 'Nomor meja yang unik.', example: 'A1')]
     public function rules(): array
     {
         return [

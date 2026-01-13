@@ -9,7 +9,13 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Support\Facades\Gate;
+use Knuckles\Scribe\Attributes\Group;
+use Knuckles\Scribe\Attributes\Endpoint;
+use Knuckles\Scribe\Attributes\BodyParam;
+use Knuckles\Scribe\Attributes\Response;
+use Knuckles\Scribe\Attributes\Authenticated;
 
+#[Group('User Management', 'APIs for managing users in the system.')]
 class UserController extends Controller
 {
     protected $userService;
@@ -18,9 +24,9 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    /**
-     * Display a listing of the resource.
-     */
+    #[Endpoint('Daftar Pengguna', 'Menampilkan daftar semua pengguna yang tersedia.')]
+    #[Authenticated]
+    #[Response(content: '[{"id": 1,"name": "John Doe","email": "john@example.com","username": "johndoe","role": "cashier","created_at": "2023-01-01T0:00.000Z","updated_at": "2023-01-01T00:00.000000Z"}]', status: 200)]
     public function index()
     {
         Gate::authorize('viewAny', User::class);
@@ -29,9 +35,8 @@ class UserController extends Controller
         return UserResource::collection($users);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    #[Endpoint('Buat Pengguna Baru', 'Membuat pengguna baru dengan data yang diberikan.')]
+    #[Authenticated]
     public function store(StoreUserRequest $request)
     {
         Gate::authorize('create', User::class);
@@ -40,9 +45,9 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    /**
-     * Display the specified resource.
-     */
+    #[Endpoint('Tampilkan Pengguna', 'Menampilkan detail pengguna berdasarkan ID.')]
+    #[Authenticated]
+    #[Response(content: '{"id": 1,"name": "John Doe","email": "john@example.com","username": "johndoe","role": "cashier","created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T00:00.000000Z"}', status: 200)]
     public function show(string $id)
     {
         $user = $this->userService->getUserById($id);
@@ -51,9 +56,8 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    #[Endpoint('Perbarui Pengguna', 'Memperbarui data pengguna berdasarkan ID.')]
+    #[Authenticated]
     public function update(UpdateUserRequest $request, string $id)
     {
         $targetUser = $this->userService->getUserById($id);
@@ -64,9 +68,10 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    #[Endpoint('Hapus Pengguna', 'Menghapus pengguna berdasarkan ID.')]
+    #[Authenticated]
+    #[Response(content: '{"message": "Pengguna berhasil dihapus"}', status: 200)]
+    #[Response(content: '{"message": "Error message"}', status: 400)]
     public function destroy(string $id)
     {
         $userTarget = $this->userService->getUserById($id);
@@ -74,7 +79,7 @@ class UserController extends Controller
 
         try {
             $this->userService->deleteUser($id);
-            return response()->json(['message' => 'User deleted successfully']);
+            return response()->json(['message' => 'Pengguna berhasil dihapus']);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 400);
         }

@@ -7,7 +7,13 @@ use App\Http\Requests\StoreOrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
+use Knuckles\Scribe\Attributes\Group;
+use Knuckles\Scribe\Attributes\Endpoint;
+use Knuckles\Scribe\Attributes\BodyParam;
+use Knuckles\Scribe\Attributes\Response;
+use Knuckles\Scribe\Attributes\Authenticated;
 
+#[Group('Order Management', 'APIs for managing orders in the system.')]
 class OrderController extends Controller
 {
     protected $orderService;
@@ -17,17 +23,18 @@ class OrderController extends Controller
         $this->orderService = $orderService;
     }
 
-    /**
-     * Display a listing of the resource.
-     */
+    // #[Endpoint('Daftar Pesanan', 'Menampilkan daftar semua pesanan yang tersedia.')]
+    // #[Authenticated]
+    // #[Response(content: '[{"id": 1,"table_number": "A1","total_price": 50000,"status": "completed","created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T00:00.000000Z"}]', status: 200)]
     public function index()
     {
-        //
+        // optional
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    #[Endpoint('Buat Pesanan Baru', 'Membuat pesanan baru dengan data yang diberikan.')]
+    #[Authenticated]
+    #[Response(content: '{"id": 1,"table_number": "A1","total_price": 50000,"status": "pending","created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T0:00.000000Z"}', status: 200)]
+    #[Response(content: '{"message": "Error message"}', status: 400)]
     public function store(StoreOrderRequest $request)
     {
         try {
@@ -41,27 +48,27 @@ class OrderController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
+    // #[Endpoint('Tampilkan Pesanan', 'Menampilkan detail pesanan berdasarkan ID.')]
+    // #[Authenticated]
+    // #[Response(content: '{"id": 1,"table_number": "A1","total_price": 50000,"status": "pending","created_at": "2023-01-01T0:00.000Z","updated_at": "2023-01-01T00:00.000000Z"}', status: 200)]
     public function show(string $id)
     {
-        //
+        // optional
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    // #[Endpoint('Perbarui Pesanan', 'Memperbarui data pesanan berdasarkan ID.')]
+    // #[Authenticated]
+    // #[Response(content: '{"id": 1,"table_number": "A1","total_price": 50000,"status": "completed","created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T00:00.00000Z"}', status: 200)]
     public function update(Request $request, string $id)
     {
-        //
+        // optional
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // #[Endpoint('Hapus Pesanan', 'Menghapus pesanan berdasarkan ID.')]
+    // #[Authenticated]
+    // #[Response(content: '{"message": "Pesanan berhasil dihapus"}', status: 200)]
     public function destroy(string $id)
     {
-        //
+        // optional
     }
 }
