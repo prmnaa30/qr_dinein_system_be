@@ -1,0 +1,58 @@
+<?php
+
+namespace App\Policies;
+
+use App\Models\Order;
+use App\Models\User;
+use Illuminate\Auth\Access\Response;
+
+class OrderPolicy
+{
+    /**
+     * Determine whether the user can view kitchen dashboard.
+     */
+    public function viewKitchen(User $user): bool
+    {
+        return \in_array($user->role, ['admin', 'kitchen']);
+    }
+
+    /**
+     * Determine whether the user can view cashier dashboard.
+     */
+    public function viewCashier(User $user): bool
+    {
+        return \in_array($user->role, ['admin', 'cashier']);
+    }
+
+    /**
+     * Determine whether the user can view the model.
+     */
+    public function view(User $user, Order $order): bool
+    {
+        return \in_array($user->role, ['admin', 'cashier', 'kitchen']);
+    }
+
+    /**
+     * Determine whether the user can create models.
+     */
+    public function create(User $user): bool
+    {
+        return true;
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     */
+    public function update(User $user, Order $order): bool
+    {
+        return \in_array($user->role, ['admin', 'cashier', 'kitchen']);
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     */
+    public function delete(User $user, Order $order): bool
+    {
+        return \in_array($user->role, ['admin', 'cashier', 'kitchen']);
+    }
+}

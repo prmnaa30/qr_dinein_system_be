@@ -30,4 +30,37 @@ class OrderRepository implements OrderRepoInterface
             ->latest()
             ->get();
     }
+
+    public function getKitchenOrders()
+    {
+        return Order::with(['items.product', 'table'])
+            ->where('payment_status', 'paid')
+            ->whereIn('status', ['preparing', 'pending'])
+            ->orderBy('created_at', 'asc')
+            ->get();
+    }
+
+    public function getCashierOrders(array $filters)
+    {
+        $query = Order::with(['items.product', 'table']);
+
+        if (isset($filters['payment_status'])) {
+            $query->where('payment_status', $filters['payment_status']);
+        }
+
+        if (isset($filters['status'])) {
+            $query->where('status', $filters['status']);
+        }
+
+        return $query->latest()->paginate(10);
+    }
+
+    public function updateOrderStatus($id, string $status)
+    {
+        $order = Order::findOrFail($id);
+        $order->status = $status;
+        $order->save();
+
+        return $order;
+    }
 }

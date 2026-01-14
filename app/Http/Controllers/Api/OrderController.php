@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
+use App\Http\Requests\UpdateOrderStatusRequest;
 use App\Http\Resources\OrderResource;
+use App\Models\Order;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Knuckles\Scribe\Attributes\Group;
 use Knuckles\Scribe\Attributes\Endpoint;
 use Knuckles\Scribe\Attributes\BodyParam;
@@ -33,7 +36,7 @@ class OrderController extends Controller
 
     #[Endpoint('Buat Pesanan Baru', 'Membuat pesanan baru dengan data yang diberikan.')]
     #[Authenticated]
-    #[Response(content: '{"id": 1,"table_number": "A1","total_price": 50000,"status": "pending","created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T0:00.000000Z"}', status: 200)]
+    #[Response(content: '{"id": 1,"table_number": "A1","total_price": 50000,"payment_status": "unpaid","status": "pending","created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T0:00.000000Z"}', status: 200)]
     #[Response(content: '{"message": "Error message"}', status: 400)]
     public function store(StoreOrderRequest $request)
     {
@@ -70,5 +73,39 @@ class OrderController extends Controller
     public function destroy(string $id)
     {
         // optional
+    }
+
+    #[Endpoint('Daftar Pesanan Kitchen', 'Menampilkan daftar semua pesanan dengan payment_status = "paid"')]
+    #[Authenticated]
+    #[Response('{"id": 1,"table_number": "A1","total_price": 50000,"payment_status": "paid","status": "pending","created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T0:00.000000Z"}')]
+    public function getKitchenOrders()
+    {
+        Gate::authorize('viewKitchen', Order::class);
+
+        $orders = $this->orderService->getOrdersForKitchen();
+
+        return OrderResource::collection($orders);
+    }
+
+    #[Endpoint('Daftar Pesanan Cashier', 'Menampilkan daftar semua pesanan di dashboard cashier')]
+    #[Authenticated]
+    #[Response('{"id": 1,"table_number": "A1","total_price": 50000,"payment_status": "paid","status": "pending","created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T0:00.000000Z"}')]
+    public function getCashierOrders(Request $request)
+    {
+        Gate::authorize('viewCashier', Order::class);
+
+        $orders = $this->orderService->getOrdersForCashier($request->all());
+
+        return OrderResource::collection($orders);
+    }
+
+    public function updateStatus(UpdateOrderStatusRequest $request, $id)
+    {
+        $order = Order::findOrFail($id);
+        Gate::authorize('update', $order);
+
+        $updatedOrder = $this->orderService->updateOrderStatus($id, $request->status);
+
+        return new OrderResource($updatedOrder);
     }
 }

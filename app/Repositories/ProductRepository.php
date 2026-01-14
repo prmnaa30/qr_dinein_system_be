@@ -19,7 +19,7 @@ class ProductRepository implements ProductRepoInterface
             $query->where('name', 'like', '%' . $filters['search'] . '%');
         }
 
-        return $query->latest()->get();
+        return $query->latest()->paginate(10);
     }
 
     public function getById($id)

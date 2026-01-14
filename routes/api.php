@@ -21,6 +21,7 @@ Route::post('/orders', [OrderController::class, 'store']);
 Route::get('/tables/resolve/{uuid}', [TableController::class, 'resolveUuid']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    // ? User data and Logout
     Route::get('/user', [AuthController::class, 'user']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
@@ -41,4 +42,16 @@ Route::middleware('auth:sanctum')->group(function () {
         // ? User management
         Route::apiResource('/users', UserController::class);
     });
+
+    // ? Get Kitchen Orders
+    Route::get('/orders/kitchen', [OrderController::class, 'getKitchenOrders'])
+        ->middleware(['role:admin,kitchen']);
+
+    // ? Get Cashier Orders
+    Route::get('/orders/cashier', [OrderController::class, 'getCashierOrders'])
+        ->middleware(['role:admin,cashier']);
+
+    // ? Patch Orders Data (usually order's status)
+    Route::patch('/orders/{id}/status', [OrderController::class, 'updateStatus'])
+        ->middleware(['role:admin,cashier,kitchen']);
 });

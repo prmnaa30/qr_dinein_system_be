@@ -63,4 +63,19 @@ class OrderService
             return $order;
         });
     }
+
+    public function getOrdersForKitchen()
+    {
+        return $this->orderRepository->getKitchenOrders();
+    }
+
+    public function getOrdersForCashier(array $filters)
+    {
+        return $this->orderRepository->getCashierOrders($filters);
+    }
+
+    public function updateOrderStatus($id, string $newStatus)
+    {
+        return $this->orderRepository->updateOrderStatus($id, $newStatus);
+    }
 }

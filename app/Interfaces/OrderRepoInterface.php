@@ -8,4 +8,7 @@ interface OrderRepoInterface
     public function createItem(array $data);
     public function getById($id);
     public function getByStatus(array $statuses);
+    public function getKitchenOrders();
+    public function getCashierOrders(array $filters);
+    public function updateOrderStatus($id, string $status);
 }
