@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\TableController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\WebhookController;
 use Illuminate\Support\Facades\Route;
 
 // ? Public routes | Auth
@@ -19,6 +20,9 @@ Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{category}', [CategoryController::class, 'show']);
 Route::post('/orders', [OrderController::class, 'store']);
 Route::get('/tables/resolve/{uuid}', [TableController::class, 'resolveUuid']);
+
+// ? Handle Midtrans' Webhook
+Route::post('/webhooks/midtrans', [WebhookController::class, 'handleMidtrans']);
 
 Route::middleware('auth:sanctum')->group(function () {
     // ? User data and Logout

@@ -35,7 +35,6 @@ class ProductController extends Controller
     #[Response(content: '[{"id": 1,"name": "Nasi Goreng","description": "Nasi goreng spesial","price": 25000,"image": "nasi_goreng.jpg","category_id": 1,"created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T00:00.000000Z"}]', status: 200)]
     public function index(Request $request)
     {
-        Gate::authorize('viewAny', User::class);
         $products = $this->productService->getAllProducts($request->all());
 
         return ProductResource::collection($products);
@@ -57,7 +56,6 @@ class ProductController extends Controller
     public function show(string $id)
     {
         $product = $this->productService->getProductById($id);
-        Gate::authorize('view', $product);
 
         return new ProductResource($product);
     }

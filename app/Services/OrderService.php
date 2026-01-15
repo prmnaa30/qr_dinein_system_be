@@ -11,16 +11,19 @@ class OrderService
 {
     protected $orderRepository;
     protected $productRepository;
+    protected $midtransService;
 
     /**
      * Create a new class instance.
      */
     public function __construct(
         OrderRepoInterface $orderRepository,
-        ProductRepoInterface $productRepository
+        ProductRepoInterface $productRepository,
+        MidtransService $midtransService,
     ) {
         $this->orderRepository = $orderRepository;
         $this->productRepository = $productRepository;
+        $this->midtransService = $midtransService;
     }
 
     public function createOrder(array $data)
@@ -43,7 +46,7 @@ class OrderService
                     'product_id' => $product->id,
                     'quantity' => $item['quantity'],
                     'price' => $product->price,
-                    'notes' => $item['notes'] ?? null
+                    'notes' => $item['notes'] ?? null,
                 ];
             }
 
@@ -59,6 +62,13 @@ class OrderService
                 $itemData['order_id'] = $order->id;
                 $this->orderRepository->createItem($itemData);
             }
+
+            $order->load('items.product');
+
+            $snapToken = $this->midtransService->getSnapToken($order);
+
+            $order->snap_token = $snapToken;
+            $order->save();
 
             return $order;
         });

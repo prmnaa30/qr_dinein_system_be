@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignId('table_id')->constrained();
             $table->string('customer_name');
             $table->decimal('total_price', 10, 2);
-            $table->enum('payment_status', ['unpaid', 'paid', 'expired', 'failed'])->default('unpaid');
+            $table->enum('payment_status', ['pending', 'unpaid', 'paid', 'expired', 'failed'])->default('unpaid');
 
             $table->string('snap_token')->nullable();
             $table->string('midtrans_order_id')->nullable()->unique();

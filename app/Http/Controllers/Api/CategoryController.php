@@ -31,7 +31,6 @@ class CategoryController extends Controller
     #[Response(content: '[{"id": 1,"name": "Makanan","description": "Berbagai jenis makanan","created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T00:00.000000Z"}]', status: 200)]
     public function index()
     {
-        Gate::authorize('viewAny', Category::class);
         $categories = $this->categoryService->getAllCategories();
 
         return CategoryResource::collection($categories);
@@ -53,7 +52,6 @@ class CategoryController extends Controller
     public function show(string $id)
     {
         $category = $this->categoryService->getCategoryById($id);
-        Gate::authorize('view', $category);
 
         return new CategoryResource($category);
     }
