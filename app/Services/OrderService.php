@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\OrderStatusUpdated;
 use App\Interfaces\OrderRepoInterface;
 use App\Interfaces\ProductRepoInterface;
 use Exception;
@@ -86,6 +87,10 @@ class OrderService
 
     public function updateOrderStatus($id, string $newStatus)
     {
-        return $this->orderRepository->updateOrderStatus($id, $newStatus);
+        $order = $this->orderRepository->updateOrderStatus($id, $newStatus);
+
+        OrderStatusUpdated::dispatch($order);
+
+        return $order;
     }
 }

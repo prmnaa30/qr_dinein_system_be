@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\OrderPaid;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Services\OrderService;
@@ -54,6 +55,7 @@ class WebhookController extends Controller
                     'status' => 'pending'
                 ]);
 
+                OrderPaid::dispatch($order);
             } elseif ($transactionStatus == 'pending') {
                 $order->update(['payment_status' => 'pending']);
             } elseif ($transactionStatus == 'deny') {
