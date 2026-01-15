@@ -50,6 +50,7 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Login berhasil!',
             'data' => $user,
+            'access_token' => $token
         ])->withCookie($this->setCookie($token));
     }
 
