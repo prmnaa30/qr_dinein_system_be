@@ -84,38 +84,16 @@ class AuthController extends Controller
      */
     private function setCookie($token)
     {
-        // Determine if we should use secure cookies based on the environment
-        $isSecure = $this->shouldUseSecureCookies();
-
         return cookie(
-            'auth_token',
-            $token,
-            60 * 24,
-            '/',
-            $_ENV['SESSION_DOMAIN'] ?? null,
-            false,
-            true,
-            false,
-            'None'
+            name: 'auth_token',
+            value: $token,
+            minutes: 60 * 24,
+            path: '/',
+            domain: env('SESSION_DOMAIN'),
+            secure: env('SESSION_SECURE_COOKIE'),
+            httpOnly: true,
+            raw: false,
+            sameSite: env('SESSION_SAME_SITE')
         );
-    }
-
-    /**
-     * Determine if secure cookies should be used based on the environment
-     * @return bool
-     */
-    private function shouldUseSecureCookies(): bool
-    {
-        $appUrl = parse_url(config('app.url'));
-        $frontEndUrl = parse_url($_ENV['FRONTEND_URL'] ?? '');
-
-        $appIsSecure = isset($appUrl['scheme']) && $appUrl['scheme'] === 'https';
-        $frontendIsSecure = isset($frontEndUrl['scheme']) && $frontEndUrl['scheme'] === 'https';
-
-        if (app()->environment('local')) {
-            return false;
-        }
-
-        return $appIsSecure || $frontendIsSecure;
     }
 }

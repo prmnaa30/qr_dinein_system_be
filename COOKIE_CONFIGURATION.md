@@ -158,6 +158,45 @@ const response = await axios.get('/api/user', { /* no withCredentials */ });
 apiClient.get('/user');
 ```
 
+### Additional Frontend Configuration
+
+Make sure your development server is configured to proxy API requests properly to avoid CORS issues:
+
+```javascript
+// vite.config.js (for Vite-based projects like Vue 3)
+export default {
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:44649', // Your Laravel backend
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      }
+    }
+  }
+}
+
+// OR for Create React App (in package.json):
+"proxy": "http://localhost:44649"
+
+// OR for webpack-dev-server:
+module.exports = {
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:44649',
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: {
+          '^/api': '',
+        },
+      },
+    },
+  },
+};
+```
+
 ## Troubleshooting
 
 ### Common Issues:

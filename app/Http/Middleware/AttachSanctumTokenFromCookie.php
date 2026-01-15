@@ -27,13 +27,12 @@ class AttachSanctumTokenFromCookie
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->hasCookie(self::TOKEN_COOKIE_NAME)) {
+        if (!$request->headers->has('Authorization') && $request->hasCookie(self::TOKEN_COOKIE_NAME)) {
             $token = $request->cookie(self::TOKEN_COOKIE_NAME);
 
-            // Decode the token in case it contains URL-encoded characters (like %7C for |)
             $decodedToken = urldecode($token);
 
-            if (!empty(trim($decodedToken)) && $this->isValidTokenFormat($decodedToken) && !$request->headers->has('Authorization')) {
+            if (!empty(trim($decodedToken)) && $this->isValidTokenFormat($decodedToken)) {
                 $request->headers->set('Authorization', "Bearer {$decodedToken}");
             }
         }
