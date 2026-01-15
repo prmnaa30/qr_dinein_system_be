@@ -50,7 +50,6 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Login berhasil!',
             'data' => $user,
-            'access_token' => $token
         ])->withCookie($this->setCookie($token));
     }
 
@@ -94,7 +93,7 @@ class AuthController extends Controller
             60 * 24,
             '/',
             $_ENV['SESSION_DOMAIN'] ?? null,
-            $isSecure,
+            false,
             true,
             false,
             'None'
