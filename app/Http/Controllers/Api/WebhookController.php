@@ -22,20 +22,12 @@ class WebhookController extends Controller
     public function handleMidtrans(Request $request)
     {
         try {
+            $notification = new Notification();
 
-            // TODO: remove comments on production
-            // $notification = new Notification();
-            //
-            // $transactionStatus = $notification->transaction_status;
-            // $type = $notification->payment_type;
-            // $orderIdRaw = $notification->order_id;
-            // $fraudStatus = $notification->fraud_status;
-            $transactionStatus = $request->input('transaction_status');
-            $type = $request->input('payment_type');
-            $orderIdRaw = $request->input('order_id');
-            $fraudStatus = $request->input('fraud_status');
-
-            echo $transactionStatus;
+            $transactionStatus = $notification->transaction_status;
+            $type = $notification->payment_type;
+            $orderIdRaw = $notification->order_id;
+            $fraudStatus = $notification->fraud_status;
 
             $orderId = explode('-', $orderIdRaw)[0];
 
