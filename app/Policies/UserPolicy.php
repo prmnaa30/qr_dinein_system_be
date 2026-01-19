@@ -24,6 +24,14 @@ class UserPolicy
     }
 
     /**
+     * Determine whether the user can view the admin role's dashboard.
+     */
+    public function viewAdminDashboard(User $user): bool
+    {
+        return \in_array($user->role, ['admin', 'cashier']);
+    }
+
+    /**
      * Determine whether the user can create models.
      */
     public function create(User $user): bool

@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Knuckles\Scribe\Attributes\BodyParam;
+use Knuckles\Scribe\Attributes\Endpoint;
+use Knuckles\Scribe\Attributes\Response;
 
 class UpdateOrderStatusRequest extends FormRequest
 {
@@ -14,11 +17,8 @@ class UpdateOrderStatusRequest extends FormRequest
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
+    #[Endpoint('Update Order Status Request', 'Menangani permintaan pembaruan status pesanan dengan validasi data.')]
+    #[BodyParam('status', 'string', 'Status pesanan baru. Harus salah satu dari: pending, preparing, ready, completed, cancelled.', example: 'completed')]
     public function rules(): array
     {
         return [

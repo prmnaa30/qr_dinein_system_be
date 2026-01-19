@@ -106,13 +106,153 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"id": 1,"table_number": "A1","total_price": 50000,"status": "pending","created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T0:00.000000Z"}'
+        content: '{"id": 1,"table_number": "A1","total_price": 50000,"payment_status": "unpaid","status": "pending","created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T0:00.000000Z"}'
         headers: []
         description: ''
       -
         custom: []
         status: 400
         content: '{"message": "Error message"}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/orders/kitchen
+    metadata:
+      custom: []
+      groupName: 'Order Management'
+      groupDescription: 'APIs for managing orders in the system.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Daftar Pesanan Kitchen'
+      description: 'Menampilkan daftar semua pesanan dengan payment_status = "paid"'
+      authenticated: true
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '[{"id": 1,"table_number": "A1","total_price": 50000,"payment_status": "paid","status": "pending","created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T0:00.000000Z"}]'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/orders/cashier
+    metadata:
+      custom: []
+      groupName: 'Order Management'
+      groupDescription: 'APIs for managing orders in the system.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Daftar Pesanan Cashier'
+      description: 'Menampilkan daftar semua pesanan di dashboard cashier'
+      authenticated: true
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '[{"id": 1,"table_number": "A1","total_price": 50000,"payment_status": "paid","status": "pending","created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T0:00.000000Z"}]'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - PATCH
+    uri: 'api/orders/{id}/status'
+    metadata:
+      custom: []
+      groupName: 'Order Management'
+      groupDescription: 'APIs for managing orders in the system.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Perbarui Status Pesanan'
+      description: 'Memperbarui status pesanan berdasarkan ID.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        custom: []
+        name: id
+        description: 'The ID of the order.'
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      id: architecto
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      status:
+        custom: []
+        name: status
+        description: ''
+        required: true
+        example: preparing
+        type: string
+        enumValues:
+          - pending
+          - preparing
+          - ready
+          - completed
+          - cancelled
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      status: preparing
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"id": 1,"table_number": "A1","total_price": 50000,"payment_status": "paid","status": "completed","created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T0:00.000000Z"}'
         headers: []
         description: ''
     responseFields: []

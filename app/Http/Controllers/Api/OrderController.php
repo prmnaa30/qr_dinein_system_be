@@ -77,7 +77,7 @@ class OrderController extends Controller
 
     #[Endpoint('Daftar Pesanan Kitchen', 'Menampilkan daftar semua pesanan dengan payment_status = "paid"')]
     #[Authenticated]
-    #[Response('{"id": 1,"table_number": "A1","total_price": 50000,"payment_status": "paid","status": "pending","created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T0:00.000000Z"}')]
+    #[Response(content: '[{"id": 1,"table_number": "A1","total_price": 50000,"payment_status": "paid","status": "pending","created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T0:00.000000Z"}]', status: 200)]
     public function getKitchenOrders()
     {
         Gate::authorize('viewKitchen', Order::class);
@@ -89,7 +89,7 @@ class OrderController extends Controller
 
     #[Endpoint('Daftar Pesanan Cashier', 'Menampilkan daftar semua pesanan di dashboard cashier')]
     #[Authenticated]
-    #[Response('{"id": 1,"table_number": "A1","total_price": 50000,"payment_status": "paid","status": "pending","created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T0:00.000000Z"}')]
+    #[Response(content: '[{"id": 1,"table_number": "A1","total_price": 50000,"payment_status": "paid","status": "pending","created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T0:00.000000Z"}]', status: 200)]
     public function getCashierOrders(Request $request)
     {
         Gate::authorize('viewCashier', Order::class);
@@ -99,6 +99,9 @@ class OrderController extends Controller
         return OrderResource::collection($orders);
     }
 
+    #[Endpoint('Perbarui Status Pesanan', 'Memperbarui status pesanan berdasarkan ID.')]
+    #[Authenticated]
+    #[Response(content: '{"id": 1,"table_number": "A1","total_price": 50000,"payment_status": "paid","status": "completed","created_at": "2023-01-01T00:00.000Z","updated_at": "2023-01-01T0:00.000000Z"}', status: 200)]
     public function updateStatus(UpdateOrderStatusRequest $request, $id)
     {
         $order = Order::findOrFail($id);

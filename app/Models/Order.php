@@ -28,4 +28,14 @@ class Order extends Model
     {
         return $this->belongsTo(Table::class);
     }
+
+    public function transaction()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function latestTransaction()
+    {
+        return $this->hasOne(Transaction::class)->latestOfMany();
+    }
 }

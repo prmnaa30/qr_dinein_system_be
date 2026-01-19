@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\TableController;
@@ -29,6 +30,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
+    // * Admin Group
     Route::middleware(['role:admin'])->prefix('admin')->group(function () {
         // ? Products management
         Route::apiResource('/products', ProductController::class)
@@ -45,6 +47,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // ? User management
         Route::apiResource('/users', UserController::class);
+
+        // ? Dashboard and sales report (download)
+        Route::get('/dashboard/summary', [DashboardController::class, 'index']);
+        Route::get('/reports/sales', [DashboardController::class, 'exportSales']);
     });
 
     // ? Get Kitchen Orders
