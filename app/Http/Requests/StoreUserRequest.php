@@ -29,7 +29,7 @@ class StoreUserRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'unique:users,email'],
-            'username' => ['required', 'string', 'alpha_dash', 'unique:users,username'],
+            'username' => ['required', 'string', 'unique:users,username'],
             'password' => ['required', 'confirmed', Password::defaults()],
             'role' => ['required', 'in:admin,cashier,kitchen']
         ];
