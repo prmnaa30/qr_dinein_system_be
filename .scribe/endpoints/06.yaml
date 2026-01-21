@@ -86,9 +86,9 @@ endpoints:
       username:
         custom: []
         name: username
-        description: 'Must contain only letters, numbers, dashes and underscores.'
+        description: ''
         required: true
-        example: bng-zmi_y
+        example: architecto
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -110,7 +110,7 @@ endpoints:
         name: role
         description: ''
         required: true
-        example: admin
+        example: cashier
         type: string
         enumValues:
           - admin
@@ -122,9 +122,9 @@ endpoints:
     cleanBodyParameters:
       name: b
       email: gbailey@example.net
-      username: bng-zmi_y
+      username: architecto
       password: architecto
-      role: admin
+      role: cashier
     fileParameters: []
     responses: []
     responseFields: []
@@ -266,7 +266,7 @@ endpoints:
         name: role
         description: ''
         required: true
-        example: admin
+        example: cashier
         type: string
         enumValues:
           - admin
@@ -279,7 +279,7 @@ endpoints:
       name: b
       email: gbailey@example.net
       username: bng-zmi_y
-      role: admin
+      role: cashier
     fileParameters: []
     responses: []
     responseFields: []

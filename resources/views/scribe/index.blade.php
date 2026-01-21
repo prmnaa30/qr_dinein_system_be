@@ -128,6 +128,9 @@
                                                     <li class="tocify-item level-2" data-unique="order-management-POSTapi-orders">
                                 <a href="#order-management-POSTapi-orders">Buat Pesanan Baru</a>
                             </li>
+                                                                                <li class="tocify-item level-2" data-unique="order-management-GETapi-orders--id--track">
+                                <a href="#order-management-GETapi-orders--id--track">Tracking Status Pesanan</a>
+                            </li>
                                                                                 <li class="tocify-item level-2" data-unique="order-management-GETapi-orders-kitchen">
                                 <a href="#order-management-GETapi-orders-kitchen">Daftar Pesanan Kitchen</a>
                             </li>
@@ -224,7 +227,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: January 19, 2026</li>
+        <li>Last updated: January 21, 2026</li>
     </ul>
 </div>
 
@@ -1655,8 +1658,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"start_date\": \"2026-01-19T03:53:00\",
-    \"end_date\": \"2052-02-12\",
+    \"start_date\": \"2026-01-21T02:31:57\",
+    \"end_date\": \"2052-02-14\",
     \"export\": \"architecto\"
 }"
 </code></pre></div>
@@ -1673,8 +1676,8 @@ const headers = {
 };
 
 let body = {
-    "start_date": "2026-01-19T03:53:00",
-    "end_date": "2052-02-12",
+    "start_date": "2026-01-21T02:31:57",
+    "end_date": "2052-02-14",
     "export": "architecto"
 };
 
@@ -1786,10 +1789,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="start_date"                data-endpoint="GETapi-admin-reports-sales"
-               value="2026-01-19T03:53:00"
+               value="2026-01-21T02:31:57"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-01-19T03:53:00</code></p>
+<p>Must be a valid date. Example: <code>2026-01-21T02:31:57</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>end_date</code></b>&nbsp;&nbsp;
@@ -1798,10 +1801,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="end_date"                data-endpoint="GETapi-admin-reports-sales"
-               value="2052-02-12"
+               value="2052-02-14"
                data-component="body">
     <br>
-<p>Must be a valid date. Must be a date after or equal to <code>start_date</code>. Example: <code>2052-02-12</code></p>
+<p>Must be a valid date. Must be a date after or equal to <code>start_date</code>. Example: <code>2052-02-14</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>export</code></b>&nbsp;&nbsp;
@@ -2053,6 +2056,170 @@ You can check the Dev Tools console for debugging information.</code></pre>
                                     </details>
         </div>
         </form>
+
+                    <h2 id="order-management-GETapi-orders--id--track">Tracking Status Pesanan</h2>
+
+<p>
+</p>
+
+<p>Melihat status pesanan setelah pembayaran melalui Midtrans</p>
+
+<span id="example-requests-GETapi-orders--id--track">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "https://qr-dinein-system.ddev.site/api/orders/architecto/track" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "https://qr-dinein-system.ddev.site/api/orders/architecto/track"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-orders--id--track">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;data&quot;: {
+        &quot;order_id&quot;: 1,
+        &quot;customer_name&quot;: &quot;John Doe&quot;,
+        &quot;table_number&quot;: &quot;A1&quot;,
+        &quot;status&quot;: &quot;pending&quot;,
+        &quot;payment_status&quot;: &quot;paid&quot;,
+        &quot;ui_step&quot;: 1,
+        &quot;ui_description&quot;: &quot;Pesanan menunggu konfirmasi dapur&quot;,
+        &quot;items&quot;: [
+            {
+                &quot;name&quot;: &quot;Nasi Goreng&quot;,
+                &quot;qty&quot;: 1
+            }
+        ]
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (403):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Akses ditolak. Nomor meja tidak sesuai.&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Order tidak ditemukan!&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-orders--id--track" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-orders--id--track"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-orders--id--track"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-orders--id--track" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-orders--id--track">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-orders--id--track" data-method="GET"
+      data-path="api/orders/{id}/track"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-orders--id--track', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-orders--id--track"
+                    onclick="tryItOut('GETapi-orders--id--track');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-orders--id--track"
+                    onclick="cancelTryOut('GETapi-orders--id--track');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-orders--id--track"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/orders/{id}/track</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-orders--id--track"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-orders--id--track"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="GETapi-orders--id--track"
+               value="architecto"
+               data-component="url">
+    <br>
+<p>The ID of the order. Example: <code>architecto</code></p>
+            </div>
+                    </form>
 
                     <h2 id="order-management-GETapi-orders-kitchen">Daftar Pesanan Kitchen</h2>
 
@@ -2328,7 +2495,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"status\": \"preparing\"
+    \"status\": \"pending\"
 }"
 </code></pre></div>
 
@@ -2344,7 +2511,7 @@ const headers = {
 };
 
 let body = {
-    "status": "preparing"
+    "status": "pending"
 };
 
 fetch(url, {
@@ -2464,10 +2631,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="status"                data-endpoint="PATCHapi-orders--id--status"
-               value="preparing"
+               value="pending"
                data-component="body">
     <br>
-<p>Example: <code>preparing</code></p>
+<p>Example: <code>pending</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>pending</code></li> <li><code>preparing</code></li> <li><code>ready</code></li> <li><code>completed</code></li> <li><code>cancelled</code></li></ul>
         </div>
@@ -2767,8 +2934,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --form "name=n"\
     --form "description=Eius et animi quos velit et."\
     --form "price=60"\
-    --form "is_available="\
-    --form "image=@/tmp/php5pdaGA" </code></pre></div>
+    --form "is_available=1"\
+    --form "image=@/tmp/phpnZqodK" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -2786,7 +2953,7 @@ body.append('category_id', 'architecto');
 body.append('name', 'n');
 body.append('description', 'Eius et animi quos velit et.');
 body.append('price', '60');
-body.append('is_available', '');
+body.append('is_available', '1');
 body.append('image', document.querySelector('input[name="image"]').files[0]);
 
 fetch(url, {
@@ -2929,7 +3096,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>Must be an image. Must not be greater than 2048 kilobytes. Example: <code>/tmp/php5pdaGA</code></p>
+<p>Must be an image. Must not be greater than 2048 kilobytes. Example: <code>/tmp/phpnZqodK</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>is_available</code></b>&nbsp;&nbsp;
@@ -2951,7 +3118,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             <code>false</code>
         </label>
     <br>
-<p>Example: <code>false</code></p>
+<p>Example: <code>true</code></p>
         </div>
         </form>
 
@@ -2976,7 +3143,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --form "description=Eius et animi quos velit et."\
     --form "price=60"\
     --form "is_available="\
-    --form "image=@/tmp/phpAkM8aB" </code></pre></div>
+    --form "image=@/tmp/phphjVkPi" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -3153,7 +3320,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>Must be an image. Must not be greater than 2048 kilobytes. Example: <code>/tmp/phpAkM8aB</code></p>
+<p>Must be an image. Must not be greater than 2048 kilobytes. Example: <code>/tmp/phphjVkPi</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>is_available</code></b>&nbsp;&nbsp;
@@ -4144,9 +4311,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --data "{
     \"name\": \"b\",
     \"email\": \"gbailey@example.net\",
-    \"username\": \"bng-zmi_y\",
+    \"username\": \"architecto\",
     \"password\": \"architecto\",
-    \"role\": \"admin\"
+    \"role\": \"cashier\"
 }"
 </code></pre></div>
 
@@ -4164,9 +4331,9 @@ const headers = {
 let body = {
     "name": "b",
     "email": "gbailey@example.net",
-    "username": "bng-zmi_y",
+    "username": "architecto",
     "password": "architecto",
-    "role": "admin"
+    "role": "cashier"
 };
 
 fetch(url, {
@@ -4282,10 +4449,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="username"                data-endpoint="POSTapi-admin-users"
-               value="bng-zmi_y"
+               value="architecto"
                data-component="body">
     <br>
-<p>Must contain only letters, numbers, dashes and underscores. Example: <code>bng-zmi_y</code></p>
+<p>Example: <code>architecto</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
@@ -4306,10 +4473,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="role"                data-endpoint="POSTapi-admin-users"
-               value="admin"
+               value="cashier"
                data-component="body">
     <br>
-<p>Example: <code>admin</code></p>
+<p>Example: <code>cashier</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>admin</code></li> <li><code>cashier</code></li> <li><code>kitchen</code></li></ul>
         </div>
@@ -4475,7 +4642,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"name\": \"b\",
     \"email\": \"gbailey@example.net\",
     \"username\": \"bng-zmi_y\",
-    \"role\": \"admin\"
+    \"role\": \"cashier\"
 }"
 </code></pre></div>
 
@@ -4494,7 +4661,7 @@ let body = {
     "name": "b",
     "email": "gbailey@example.net",
     "username": "bng-zmi_y",
-    "role": "admin"
+    "role": "cashier"
 };
 
 fetch(url, {
@@ -4651,10 +4818,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="role"                data-endpoint="PUTapi-admin-users--id-"
-               value="admin"
+               value="cashier"
                data-component="body">
     <br>
-<p>Example: <code>admin</code></p>
+<p>Example: <code>cashier</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>admin</code></li> <li><code>cashier</code></li> <li><code>kitchen</code></li></ul>
         </div>
