@@ -26,11 +26,3 @@ Broadcast::channel('kitchen', function (User $user) {
 Broadcast::channel('cashier', function (User $user) {
     return in_array($user->role, ['admin', 'cashier']);
 });
-
-Broadcast::channel('orders.{orderId}', function ($user, $orderId) {
-    if (in_array($user->role, ['admin', 'kitchen', 'cashier'])) {
-        return true;
-    }
-
-    return $user->id === Order::findOrNew($orderId)->user_id;
-});

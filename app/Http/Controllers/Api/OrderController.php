@@ -111,4 +111,71 @@ class OrderController extends Controller
 
         return new OrderResource($updatedOrder);
     }
+
+    #[Endpoint('Tracking Status Pesanan', 'Melihat status pesanan setelah pembayaran melalui Midtrans')]
+    #[Response('')]
+    public function trackOrder(Request $request, $id)
+    {
+        $order = Order::with('items.product')->find($id);
+
+        if (!$order) {
+            return response()->json(['message' => 'Order tidak ditemukan!'], 404);
+        }
+
+        if ($request->has('table_id') && $order->table_id != $request->table_id) {
+            return response()->json(['message' => 'Akses ditolak. Nomor meja tidak sesuai.'], 403);
+        }
+
+        $step = 0;
+        $description = '';
+
+        switch ($order->status) {
+            case 'pending':
+                $step = 1;
+                $description = 'Pesanan menunggu konfirmasi dapur';
+                break;
+            case 'preparing':
+                $step = 2;
+                $description = 'Barista sedang meracik pesananmu';
+                break;
+            case 'ready':
+                $step = 3;
+                $description = 'Pesanan siap! Akan segera diantar ke mejamu';
+                break;
+            case 'completed':
+                $step = 4;
+                $description = 'Pesanan selesai. Selamat menikmati!';
+                break;
+            case 'cancelled':
+                $step = 0;
+                $description = 'Yah, pesanan dibatalkan.';
+                break;
+            default:
+                $step = 1;
+                $description = 'Menunggu pembayaran';
+        }
+
+        if ($order->payment_status === 'unpaid') {
+            $step = 0;
+            $description = 'Menunggu pembayaran diselesaikan';
+        }
+
+        return response()->json([
+            'data' => [
+                'order_id' => $order->id,
+                'customer_name' => $order->customer_name,
+                'table_number' => $order->table->table_number ?? '-',
+                'status' => $order->status,
+                'payment_status' => $order->payment_status,
+                'ui_step' => $step,
+                'ui_description' => $description,
+                'items' => $order->items->map(function ($item) {
+                    return [
+                        'name' => $item->product->name,
+                        'qty' => $item->quantity
+                    ];
+                })
+            ]
+        ]);
+    }
 }

@@ -20,6 +20,7 @@ Route::get('/products/{product}', [ProductController::class, 'show']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{category}', [CategoryController::class, 'show']);
 Route::post('/orders', [OrderController::class, 'store']);
+Route::get('/orders/{id}/track', [OrderController::class, 'trackOrder']);
 Route::get('/tables/resolve/{uuid}', [TableController::class, 'resolveUuid']);
 
 // ? Handle Midtrans' Webhook
