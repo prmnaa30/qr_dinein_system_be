@@ -99,4 +99,9 @@ class OrderRepository implements OrderRepoInterface
 
         return $order;
     }
+
+    public function getOrderWithItems($id)
+    {
+        return Order::with('items.product')->find($id);
+    }
 }
