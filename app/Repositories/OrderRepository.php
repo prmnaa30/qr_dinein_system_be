@@ -83,8 +83,8 @@ class OrderRepository implements OrderRepoInterface
     public function getOrdersByDateRange($startDate, $endDate)
     {
         return Order::whereBetween('created_at', [
-            $startDate . '00:00:00',
-            $endDate . '23:59:59'
+            $startDate . ' 00:00:00',
+            $endDate . ' 23:59:59'
         ])
         ->where('payment_status', 'paid')
         ->with(['items.product', 'table', 'latestTransaction'])

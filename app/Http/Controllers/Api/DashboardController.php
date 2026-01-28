@@ -83,7 +83,7 @@ class DashboardController extends Controller
                     $row['customer_name'],
                     $row['table_number'],
                     $row['items_summary'],
-                    $row['total_amount']
+                    $row['total_price']
                 ]);
             }
 

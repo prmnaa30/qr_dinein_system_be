@@ -62,7 +62,7 @@ class DashboardService
                 'customer_name' => $order->customer_name,
                 'table_number' => $order->table->table_number ?? "Takeaway",
                 'items_summary' => $itemsSummary,
-                'total_amount' => (int) $order->total_price,
+                'total_price' => (int) $order->total_price,
                 'payment_method' => strtoupper($method)
             ];
         });
