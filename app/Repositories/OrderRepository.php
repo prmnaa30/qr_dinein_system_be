@@ -72,12 +72,12 @@ class OrderRepository implements OrderRepoInterface
         return OrderItem::whereHas('order', function ($q) {
             $q->where('payment_status', 'paid');
         })
-        ->select('product_id', DB::raw('SUM(quantity) as total_sold'))
-        ->groupBy('product_id')
-        ->with('product')
-        ->orderByDesc('total_sold')
-        ->take($limit)
-        ->get();
+            ->select('product_id', DB::raw('SUM(quantity) as total_sold'))
+            ->groupBy('product_id')
+            ->with('product')
+            ->orderByDesc('total_sold')
+            ->take($limit)
+            ->get();
     }
 
     public function getOrdersByDateRange($startDate, $endDate)
@@ -86,9 +86,42 @@ class OrderRepository implements OrderRepoInterface
             $startDate . ' 00:00:00',
             $endDate . ' 23:59:59'
         ])
-        ->where('payment_status', 'paid')
-        ->with(['items.product', 'table', 'latestTransaction'])
-        ->get();
+            ->where('payment_status', 'paid')
+            ->with(['items.product', 'table', 'latestTransaction'])
+            ->get();
+    }
+
+    public function getOrderWithItems($id)
+    {
+        return Order::with('items.product')->find($id);
+    }
+
+    public function getMonthlyStats()
+    {
+        return Order::whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->where('payment_status', 'paid')
+            ->select(
+                DB::raw('COUNT(*) as total_transactions'),
+                DB::raw('SUM(total_amount) as total_revenue')
+            )
+            ->first();
+    }
+
+    public function getActiveOrdersCount()
+    {
+        return Order::whereIn('status', ['pending', 'preparing', 'ready'])
+            ->where('payment_status', 'paid')
+            ->count();
+    }
+
+    public function getTotalItemsSoldToday()
+    {
+        return OrderItem::whereHas('order', function ($q) {
+                $q->whereDate('created_at', now())
+                  ->where('payment_status', 'paid');
+            })
+            ->sum('quantity');
     }
 
     public function updateOrderStatus($id, string $status)
@@ -98,10 +131,5 @@ class OrderRepository implements OrderRepoInterface
         $order->save();
 
         return $order;
-    }
-
-    public function getOrderWithItems($id)
-    {
-        return Order::with('items.product')->find($id);
     }
 }

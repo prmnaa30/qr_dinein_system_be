@@ -13,6 +13,9 @@ interface OrderRepoInterface
     public function getSalesSummary($date);
     public function getTopSellingItems($limit = 5);
     public function getOrdersByDateRange($startDate, $endDate);
-    public function updateOrderStatus($id, string $status);
     public function getOrderWithItems($id);
+    public function getMonthlyStats();
+    public function getActiveOrdersCount();
+    public function getTotalItemsSoldToday();
+    public function updateOrderStatus($id, string $status);
 }

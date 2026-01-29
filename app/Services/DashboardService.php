@@ -23,6 +23,15 @@ class DashboardService
 
         $salesToday = $this->orderRepository->getSalesSummary($today);
 
+        $salesMonth = $this->orderRepository->getMonthlyStats();
+
+        $activeOrders = $this->orderRepository->getActiveOrdersCount();
+        $itemsSoldToday = $this->orderRepository->getTotalItemsSoldToday();
+
+        $revenueToday = $salesToday->total_revenue ?? 0;
+        $trxToday = $salesToday->total_transactions ?? 0;
+        $aov = $trxToday > 0 ? round($revenueToday / $trxToday) : 0;
+
         $topItemsRaw = $this->orderRepository->getTopSellingItems(5);
         $topItems = $topItemsRaw->map(function ($item) {
             return [
@@ -30,14 +39,54 @@ class DashboardService
                 'category' => $item->product->category->name ?? '-',
                 'total_sold' => (int) $item->total_sold,
                 'price_current' => $item->product->price,
+                'revenue_contribution' => $item->total_sold * $item->product->price
             ];
         });
 
         return [
-            'date' => $today->format('d M Y'),
-            'stats' => [
-                'revenue_today' => (int) $salesToday->total_revenue ?? 0,
-                'transactions_today' => $salesToday->total_transaction ?? 0,
+            'meta' => [
+                'date' => $today->format('d M Y'),
+                'last_updated' => now()->format('H:i'),
+            ],
+            'cards' => [
+                // Card 1: Omzet Hari Ini
+                'revenue_today' => [
+                    'label' => 'Today\'s Revenue',
+                    'value' => (int) $revenueToday,
+                    'prefix' => 'Rp',
+                ],
+                // Card 2: Total Transaksi Hari Ini
+                'transactions_today' => [
+                    'label' => 'Transactions',
+                    'value' => (int) $trxToday,
+                    'unit' => 'Orders',
+                ],
+                // Card 3: Total Item Terjual
+                'items_sold_today' => [
+                    'label' => 'Items Sold',
+                    'value' => (int) $itemsSoldToday,
+                    'unit' => 'Pcs',
+                ],
+                // Card 4: Omzet Bulan Ini
+                'revenue_month' => [
+                    'label' => 'This Month',
+                    'value' => (int) ($salesMonth->total_revenue ?? 0),
+                    'prefix' => 'Rp',
+                ],
+                // Card 5: Rata-rata belanja per orang
+                'average_order_value' => [
+                    'label' => 'Avg. Order Value',
+                    'value' => $aov,
+                    'prefix' => 'Rp',
+                    'tooltip' => 'Rata-rata nominal per transaksi hari ini'
+                ],
+                // Card 6: Active Orders
+                'kitchen_load' => [
+                    'label' => 'Active Orders',
+                    'value' => $activeOrders,
+                    'unit' => 'Queue',
+                    'status' => $activeOrders > 10 ? 'High' : 'Normal'
+                ],
             ],
             'top_selling_items' => $topItems
         ];
