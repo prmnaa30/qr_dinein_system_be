@@ -20,7 +20,7 @@ class OrderResource extends JsonResource
             'table_number' => $this->whenLoaded('table', function () {
                 return $this->resource->table->table_number;
             }),
-            'total_amount' => (int) $this->resource->total_amount,
+            'total_price' => (int) $this->resource->total_price,
             'payment_status' => $this->resource->payment_status,
             'status' => $this->resource->status,
             'snap_token' => $this->resource->snap_token,

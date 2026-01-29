@@ -26,7 +26,7 @@ class DashboardController extends Controller
 
     #[Endpoint('Tampilkan Dashboard Admin', 'Menampilkan data dashboard admin untuk analisis dan statistik.')]
     #[Authenticated]
-    #[Response(content: '{"message": "Data dashboard berhasil diambil.","data": {"total_orders": 100,"total_revenue": 5000000,"total_customers": 80,"recent_orders": []}}', status: 200)]
+    #[Response(content: '{"message": "Data dashboard berhasil diambil.","data": {"meta": {"date": "25 Jan 2026","last_updated": "10:30"},"cards": {"revenue_today": {"label": "Today\'s Revenue","value": 1500000,"prefix": "Rp"},"transactions_today": {"label": "Transactions","value": 25,"unit": "Orders"},"items_sold_today": {"label": "Items Sold","value": 45,"unit": "Pcs"},"revenue_month": {"label": "This Month","value": 45000000,"prefix": "Rp"},"average_order_value": {"label": "Avg. Order Value","value": 60000,"prefix": "Rp","tooltip": "Rata-rata nominal per transaksi hari ini"},"kitchen_load": {"label": "Active Orders","value": 5,"unit": "Queue","status": "Normal"}},"top_selling_items": [{"product_name": "Nasi Goreng","category": "Makanan","total_sold": 15,"price_current": 25000,"revenue_contribution": 375000}]}}', status: 200)]
     public function index()
     {
         Gate::authorize('viewAdminDashboard', User::class);
@@ -40,7 +40,7 @@ class DashboardController extends Controller
 
     #[Endpoint('Ekspor Laporan Penjualan', 'Mengekspor laporan penjualan dalam rentang tanggal tertentu.')]
     #[Authenticated]
-    #[Response(content: '{"data": [{"order_id": 1,"date": "2023-01-01","customer_name": "John Doe","table_number": "A1","items_summary": "Nasi Goreng, Es Teh","total_amount": 50000}],"total_revenue": 500000}', status: 200)]
+    #[Response(content: '{"data": [{"order_id": 1,"date": "2023-01-01","customer_name": "John Doe","table_number": "A1","items_summary": "Nasi Goreng, Es Teh","total_price": 50000}],"total_revenue": 500000}', status: 200)]
     public function exportSales(ExportSalesRequest $request)
     {
         $startDate = $request->start_date;

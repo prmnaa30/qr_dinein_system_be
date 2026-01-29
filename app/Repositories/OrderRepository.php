@@ -103,7 +103,7 @@ class OrderRepository implements OrderRepoInterface
             ->where('payment_status', 'paid')
             ->select(
                 DB::raw('COUNT(*) as total_transactions'),
-                DB::raw('SUM(total_amount) as total_revenue')
+                DB::raw('SUM(total_price) as total_revenue')
             )
             ->first();
     }
