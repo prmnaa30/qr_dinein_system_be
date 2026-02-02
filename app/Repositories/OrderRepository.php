@@ -61,7 +61,7 @@ class OrderRepository implements OrderRepoInterface
         return Order::whereDate('created_at', $date)
             ->where('payment_status', 'paid')
             ->select(
-                DB::raw('COUNT(*) as total_transaction'),
+                DB::raw('COUNT(*) as total_transactions'),
                 DB::raw('SUM(total_price) as total_revenue')
             )
             ->first();
@@ -110,7 +110,7 @@ class OrderRepository implements OrderRepoInterface
 
     public function getActiveOrdersCount()
     {
-        return Order::whereIn('status', ['pending', 'preparing', 'ready'])
+        return Order::whereIn('status', ['pending', 'preparing'])
             ->where('payment_status', 'paid')
             ->count();
     }

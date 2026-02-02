@@ -25,7 +25,10 @@ class UpdateUserRequest extends FormRequest
     #[BodyParam('role', 'string', 'Peran pengguna. Harus salah satu dari: admin, cashier, kitchen.', example: 'cashier')]
     public function rules(): array
     {
-        $userId = $this->route('user') ? $this->route('user')->id : $this->route('id');
+        $userId = $this->route('user');
+        if (\is_object($userId)) {
+            $userId = $userId->id;
+        }
 
         return [
             'name' => ['required', 'string', 'max:255'],

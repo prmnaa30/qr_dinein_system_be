@@ -80,14 +80,14 @@ class TableController extends Controller
 
     #[Endpoint('Unduh Kode QR Meja', 'Mengunduh atau melihat pratinjau kode QR berdasarkan field qr_uuid meja.')]
     #[Authenticated]
-    #[Response(content: '{"svg": "<svg xmlns=..."}', status: 200)]
+    #[Response(content: '{"qr_code": "data:image/png;base64..."}', status: 200)]
     public function downloadQr($id)
     {
         Gate::authorize('downloadQr', Table::class);
-        $qrCodeSvg = $this->tableService->generateQrCode($id);
+        $qrCodeBase64 = $this->tableService->generateQrCode($id);
 
         return response()->json([
-            'svg' => (string) $qrCodeSvg
+            'qr_code' => $qrCodeBase64
         ]);
     }
 

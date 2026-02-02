@@ -41,11 +41,16 @@ class TableService
     {
         $table = $this->tableRepository->getById($id);
 
-        $frontendUrl = config('app.frontend_url', 'http://localhost:5173') . '/scan?table_uuid=' . $table->qr_uuid;
+        $frontendUrl = env('FRONTEND_URL') . '/scan?table_uuid=' . $table->qr_uuid;
 
-        return QrCode::format('svg')
-            ->size(300)
+        $qrCode = QrCode::format('png')
+            ->size(500)
+            ->margin(2)
+            ->backgroundColor(255, 255, 255)
+            ->color(0, 0, 0)
             ->errorCorrection('H')
             ->generate($frontendUrl);
+
+        return 'data:image/png;base64,' . base64_encode($qrCode);
     }
 }
