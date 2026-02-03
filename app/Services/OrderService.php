@@ -152,6 +152,7 @@ class OrderService
             'table_number' => $order->table->table_number ?? '-',
             'status' => $order->status,
             'payment_status' => $order->payment_status,
+            'snap_token' => $order->snap_token,
             'ui_step' => $step,
             'ui_description' => $description,
             'items' => $order->items->map(function ($item) {

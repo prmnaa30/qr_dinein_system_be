@@ -112,8 +112,8 @@ class OrderController extends Controller
         return new OrderResource($updatedOrder);
     }
 
-    #[Endpoint('Tracking Status Pesanan', 'Melihat status pesanan setelah pembayaran melalui Midtrans')]
-    #[Response(content: '{"data": {"order_id": 1,"customer_name": "John Doe","table_number": "A1","status": "pending","payment_status": "paid","ui_step": 1,"ui_description": "Pesanan menunggu konfirmasi dapur","items": [{"name": "Nasi Goreng","qty": 1}]}}', status: 200)]
+    #[Endpoint('Tracking Status Pesanan', 'Melihat status pesanan setelah/saat pembayaran melalui Midtrans')]
+    #[Response(content: '{"data": {"order_id": 1,"customer_name": "John Doe","table_number": "A1","status": "pending","payment_status": "paid","snap_token": "xxxx-xxx-xxxx","ui_step": 1,"ui_description": "Pesanan menunggu konfirmasi dapur","items": [{"name": "Nasi Goreng","qty": 1}]}}', status: 200)]
     #[Response(content: '{"message": "Order tidak ditemukan!"}', status: 404)]
     #[Response(content: '{"message": "Akses ditolak. Nomor meja tidak sesuai."}', status: 403)]
     public function trackOrder(Request $request, $id)
